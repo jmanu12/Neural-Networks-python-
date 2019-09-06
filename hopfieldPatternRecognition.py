@@ -2,13 +2,23 @@ import matplotlib as matplotlib
 import numpy as np
 from tqdm import tqdm
 from Hopfield82 import Hopfield82
-#The imput vectors are the paterns P1, P2
-M = np.matrix("1,1,-1,-1; -1,-1,1,1")
-##############LEARNING######################
-w = Hopfield82()
-R = w.create_weight_matrix(M)
-print('************************')
-print(R)
+from processData import ProcessData
+
+# ############### READ DATA ######################
+picture = ProcessData.read_image('Images/paloma.bmp')
+#we read the picture as a vector of the individual file
+#print(picture)
+
+dataDirectory = ProcessData.read_train_path('Images/','*.bmp')
+print(dataDirectory)
+
+# ############### LEARNING ######################
+
+
+
+hopfield = Hopfield82()
+#R = w.create_weight_matrix(M)
+
 
 
 
