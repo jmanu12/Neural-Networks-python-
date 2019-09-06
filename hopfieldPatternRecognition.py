@@ -5,12 +5,13 @@ from Hopfield82 import Hopfield82
 from processData import ProcessData
 
 # ############### READ DATA ######################
-picture = ProcessData.read_image('Images/paloma.bmp')
+# picture = ProcessData.read_image('Images/paloma.bmp')
 #we read the picture as a vector of the individual file
 #print(picture)
 
-dataDirectory = ProcessData.read_train_path('Images/','*.bmp')
-print(dataDirectory)
+new_data = ProcessData()
+print(new_data.read_train_path('Images/','*.bmp'))
+#print(new_data.read_image('Images/paloma.bmp'))
 
 # ############### LEARNING ######################
 
@@ -18,7 +19,6 @@ print(dataDirectory)
 
 hopfield = Hopfield82()
 #R = w.create_weight_matrix(M)
-
 
 
 
