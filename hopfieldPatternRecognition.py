@@ -10,15 +10,18 @@ from processData import ProcessData
 #print(picture)
 
 new_data = ProcessData()
-print(new_data.read_train_path('Images/','*.bmp'))
-#print(new_data.read_image('Images/paloma.bmp'))
+data_trainig = new_data.read_train_path('Images/','*.bmp')
+input_vector = new_data.read_image('Images/paloma.bmp')
 
 # ############### LEARNING ######################
-
-
-
 hopfield = Hopfield82()
-#R = w.create_weight_matrix(M)
+weigth_matrix = hopfield.create_weight_matrix(data_trainig)
+print(weigth_matrix)
+# ############### TEST ######################
+
+
+
+
 
 
 

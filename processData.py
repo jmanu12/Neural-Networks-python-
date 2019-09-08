@@ -15,8 +15,8 @@ class ProcessData:
         datainput = np.squeeze(np.asarray(cv2.imread(dataImput_path, 0)))
         # change the white from 255 to -1 and
         datainput = np.where(datainput == 255, -1, datainput)
-        # black from 0 to 1
-        datainput = np.where(datainput == 0, 1, datainput)
+        # black from 0 to 1  and changes from matrix to vector
+        datainput = np.array(np.where(datainput == 0, 1, datainput)).flatten()
         return datainput
 
     def read_train_path(self, path, extension):
@@ -34,11 +34,13 @@ class ProcessData:
                         # black from 0 to 1
                         datainput = np.where(datainput == 0, 1, datainput)
                         if datainput.size > 1 and (file == 'panda.bmp' or file == 'v.bmp'  or file == 'perro.bmp'):
-                            data_matrix.append(datainput)
+                            # change the matrix to vector
+                            row_data =np.array(datainput).flatten()
+                            data_matrix.append(row_data)
                         # img.show()
                         # del img
                     except IOError:
                         pass
             data_matrix = np.array(data_matrix)
-            print(data_matrix.shape)
+            data_matrix = np.asmatrix(data_matrix)
         return data_matrix
