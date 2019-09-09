@@ -49,22 +49,21 @@ class ProcessData:
             data_matrix = np.asmatrix(data_matrix)
         return data_matrix
 
-    def generate_ramdom_data(self, data_input, corruption_level, num_random_item, name_file):
+    def generate_ramdom_data(self, data_input, corruption_level, num_random_item, path, name_file):
 
         if num_random_item > 0 and data_input is not None:
             if corruption_level is None:
                 corruption_level = 0.3
-
-            directorio =  str(name_file)
+            directorio =  str(path)
             try:
-                original_umask = os.umask(0)
-                os.makedirs(directorio, 0o777)
+                if not os.path.exists('./'+path):
+                    original_umask = os.umask(0)
+                    os.makedirs(directorio, 0o777)
             except:
                 print("La creación del directorio %s falló" % directorio)
             else:
                 print("Se ha creado el directorio: %s " % directorio)
             num = 0
-            os.chdir(directorio)
             for k in range(num_random_item):
                 num = num + 1
                 generate_random = np.copy(data_input)
@@ -74,35 +73,26 @@ class ProcessData:
                         generate_random[i] = -1 * v
                 plt.imsave(name_file+str(num)+".bmp", np.array(generate_random).reshape(50, 50), cmap=cm.gray)
             return 1
+
         else:
             print("error, is not posible create data")
             return 0
 
-    def reshape(self,data):
-        dim = int(np.sqrt(len(data)))
-        data = np.reshape(data, (dim, dim))
-        return data
+    def list_files(self,path, extension):
+        """
+        :param path: directory to show the files
+        :param extension: file extension
+        :return: a vector with the name of the files
+        """
+        files = os.listdir(path) #[f for f in glob.glob(path + "**/*"+extension, recursive=False)]
+        return files
+    def create_test_folder(self,folder_output_name, folder_imput_data):
+        for file in self.list_files(folder_imput_data,".bmp"):
+            if file != None:
+                imput_vector = self.read_image(folder_imput_data+file)
+                self.generate_ramdom_data(imput_vector,0.3,1,folder_output_name,file[:-4])
 
-    def plot(self, data, test, predicted, figsize=(3, 3)):
-        data = [self.reshape(d) for d in data]
-        test = [self.reshape(d) for d in test]
-        predicted = [self.reshape(d) for d in predicted]
 
-        fig, axarr = plt.subplots(len(data), 3, figsize=figsize)
-        for i in range(len(data)):
-            if i == 0:
-                axarr[i, 0].set_title('Train data')
-                axarr[i, 1].set_title("Input data")
-                axarr[i, 2].set_title('Output data')
 
-            axarr[i, 0].imshow(data[i])
-            axarr[i, 0].axis('off')
-            axarr[i, 1].imshow(test[i])
-            axarr[i, 1].axis('off')
-            axarr[i, 2].imshow(predicted[i])
-            axarr[i, 2].axis('off')
 
-        plt.tight_layout()
-        plt.savefig("result_mnist.png")
-        plt.show()
 

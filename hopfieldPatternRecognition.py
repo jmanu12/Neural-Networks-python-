@@ -14,26 +14,31 @@ new_data = ProcessData()
 #input_vector = new_data.read_image('Images/paloma.bmp')
 
 # ############### LEARNING ######################
+
 hopfield = Hopfield82()
+test = new_data.read_image('test/panda1.bmp')
 # read the trainig data located in the folder perro
 data_trainig = new_data.read_train_path('Images/','*.bmp')
 # calculate the weigth matrix
 weigth_matrix = hopfield.create_weight_matrix(data_trainig)
-test = new_data.read_image('Images/perro2.bmp')
-#The test set
-predicted = hopfield.update(test, weigth_matrix, 30, 0, False)
 
-print(predicted)
+#The test set
+predicted = hopfield.asynchronousTesting(weigth_matrix,test )
+hopfield.display(predicted)
+
     #model.plot_weights()
 
 #Generate a vector to update
 
 # ############### TEST ######################
+
+#create  a new folder with data
 """
-#create  a new folder with data 
-input_vector = new_data.read_image('Images/perro.bmp')
-new_data.generate_ramdom_data(input_vector, 0.3, 8,'perro' )
+list_files = new_data.create_test_folder('test','Images/')
+print(list_files)
 """
+
+
 
 
 
