@@ -4,20 +4,30 @@ import math
 import random
 from random import randint
 from matplotlib import pyplot as plt
+from pylab import cm
 #GENERATE RANDOM MATRIX OF SIZE NXN
-N = 10
+N = 20
 hopfieldErrorEstimation = HopfieldErrorEstimation()
 m = hopfieldErrorEstimation.generateRamdomPaterns(N,N)
 #Initial Temperature
 T = 5
-range_temp = np.arange(0.01,T,0.001)
+range_temp = np.arange(0.01,T,0.01)
 m = np.pad(m,[1,1])
 Ef = 0
 vectM = []
+
+fig, ax = plt.subplots(1, 1)
+im = ax.imshow(m, cmap=cm.binary, interpolation='nearest')
+plt.axis('off')
+
 for t in reversed(range_temp):
     Ei = Ef
     Ef = 0
+    # plt.pause(0.0000000001)
     for i in range(2,N+1):
+        im.set_data(m)
+        fig.canvas.draw_idle()
+        plt.pause(0.000000000000001)
         for j in range(2,N+1):
           Ef = Ef + (-0.5*m[i,j])*(m[i-1,j]+m[i+1,j]+m[i,j-1]+m[i,j+1])
     deltaE = Ef - Ei
