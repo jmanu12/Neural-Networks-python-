@@ -34,7 +34,7 @@ for t in reversed(range_temp):
     prob = math.exp(-deltaE/t)
     x = randint(1, N)
     y = randint(1, N)
-    if deltaE <= 0:
+    if deltaE < 0:
         m[x, y] = -1 * m[x, y]
     if deltaE > 0:
         if random.uniform(0, 1) < prob:
